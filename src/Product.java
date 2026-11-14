@@ -1,21 +1,20 @@
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Product {
 
     // Product attributes
-    private int productId;
-    private String productName;
-    private double price;
-
-    // List to store all products
-    private static final ArrayList<Product> products = new ArrayList<>();
+    private final int productId;
+    private final String productName;
+    private final int sizeMl;
+    private final double price;
 
     // Constructor
-    public Product(int productId, String productName, double price) {
+    public Product(int productId, String productName,
+                   int sizeMl, double price) {
+
         this.productId = productId;
         this.productName = productName;
+        this.sizeMl = sizeMl;
         this.price = price;
     }
 
@@ -26,6 +25,10 @@ public class Product {
 
     public String getProductName() {
         return productName;
+    }
+
+    public int getSizeMl() {
+        return sizeMl;
     }
 
     public double getPrice() {
@@ -41,25 +44,24 @@ public class Product {
 
         while (true) {
             System.out.print("Enter Product ID: ");
-            String input = scanner.nextLine();
 
             try {
-                id = Integer.parseInt(input);
+                id = Integer.parseInt(scanner.nextLine());
 
                 if (id <= 0) {
-                    System.out.println("Product ID must be positive.");
+                    System.out.println("ID must be positive.");
                     continue;
                 }
 
                 if (findProductById(id) != null) {
-                    System.out.println("This Product ID already exists.");
+                    System.out.println("Product ID already exists.");
                     continue;
                 }
 
                 break;
 
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid integer ID.");
+                System.out.println("Enter a valid ID.");
             }
         }
 
@@ -67,6 +69,7 @@ public class Product {
 
         while (true) {
             System.out.print("Enter Product Name: ");
+
             name = scanner.nextLine().trim();
 
             if (!name.isEmpty()) {
@@ -76,30 +79,52 @@ public class Product {
             System.out.println("Product name cannot be empty.");
         }
 
-        double productPrice;
+        int size;
 
         while (true) {
-            System.out.print("Enter Product Price: ");
-            String input = scanner.nextLine();
+            System.out.print("Enter Product Size (ml): ");
 
             try {
-                productPrice = Double.parseDouble(input);
+                size = Integer.parseInt(scanner.nextLine());
 
-                if (!Double.isFinite(productPrice) || productPrice <= 0) {
-                    System.out.println("Price must be a positive number.");
+                if (size <= 0) {
+                    System.out.println("Size must be positive.");
                     continue;
                 }
 
                 break;
 
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid price.");
+                System.out.println("Enter a valid size.");
             }
         }
 
-        Product newProduct = new Product(id, name, productPrice);
+        double productPrice;
 
-        products.add(newProduct);
+        while (true) {
+            System.out.print("Enter Product Price: ");
+
+            try {
+                productPrice = Double.parseDouble(scanner.nextLine());
+
+                if (!Double.isFinite(productPrice)
+                        || productPrice <= 0) {
+
+                    System.out.println("Price must be positive.");
+                    continue;
+                }
+
+                break;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a valid price.");
+            }
+        }
+
+        Product newProduct =
+                new Product(id, name, size, productPrice);
+
+        AppData.products.add(newProduct);
 
         System.out.println("\nProduct added successfully!");
     }
@@ -109,26 +134,35 @@ public class Product {
 
         System.out.println("\n===== Product List =====");
 
-        if (products.isEmpty()) {
+        if (AppData.products.isEmpty()) {
             System.out.println("No products available.");
             return;
         }
 
-        for (Product product : products) {
+        for (Product product : AppData.products) {
 
             System.out.println("------------------------");
-            System.out.println("Product ID: " + product.getProductId());
-            System.out.println("Product Name: " + product.getProductName());
-            System.out.printf("Price: %.2f%n", product.getPrice());
+
+            System.out.println("Product ID: "
+                    + product.getProductId());
+
+            System.out.println("Product Name: "
+                    + product.getProductName());
+
+            System.out.println("Size: "
+                    + product.getSizeMl() + " ml");
+
+            System.out.printf("Price: %.2f%n",
+                    product.getPrice());
         }
 
         System.out.println("------------------------");
     }
 
-    // Find a product by its ID
+    // Find product by ID
     public static Product findProductById(int productId) {
 
-        for (Product product : products) {
+        for (Product product : AppData.products) {
 
             if (product.getProductId() == productId) {
                 return product;

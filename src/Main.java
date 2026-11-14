@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class Main {
@@ -14,6 +13,8 @@ public class Main {
             System.out.println("1. Add Product");
             System.out.println("2. View Products");
             System.out.println("3. Search Product");
+            System.out.println("4. Record Production");
+            System.out.println("5. View Production");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -42,6 +43,7 @@ public class Main {
                                 System.out.println("Product Found!");
                                 System.out.println("ID: " + product.getProductId());
                                 System.out.println("Name: " + product.getProductName());
+                                System.out.println("Size: " + product.getSizeMl() + " ml");
                                 System.out.println("Price: " + product.getPrice());
                             } else {
                                 System.out.println("Product not found.");
@@ -50,6 +52,14 @@ public class Main {
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid Product ID.");
                         }
+                        break;
+
+                    case 4:
+                        ProductionRecord.recordProduction(scanner);
+                        break;
+
+                    case 5:
+                        ProductionRecord.viewProduction();
                         break;
 
                     case 0:

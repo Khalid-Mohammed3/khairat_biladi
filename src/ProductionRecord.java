@@ -1,11 +1,11 @@
-import java.util.Scanner;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class ProductionRecord {
 
-    private Product product;
-    private int quantity;
-    private String date;
+    private final  Product product;
+    private final int quantity;
+    private final String date;
 
     public ProductionRecord(Product product, int quantity, String date) {
         this.product = product;
@@ -25,7 +25,7 @@ public class ProductionRecord {
 
         for (int i = 0; i < AppData.products.size(); i++) {
             System.out.println((i + 1) + ". "
-                    + AppData.products.get(i).getName());
+                    + AppData.products.get(i).getProductName());
         }
 
         System.out.print("Choose product number: ");
@@ -88,7 +88,7 @@ public class ProductionRecord {
         for (ProductionRecord record : AppData.productionRecords) {
 
             System.out.println("Product: "
-                    + record.product.getName());
+                    + record.product.getProductName());
 
             System.out.println("Quantity: " + record.quantity);
 
